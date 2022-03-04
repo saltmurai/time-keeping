@@ -1,14 +1,12 @@
 <template>
-  <div
-    class="d-flex flex-column justify-center fill-height justify-md-space-around"
-  >
+  <div class="d-flex flex-column justify-center fill-height align-center">
     <v-btn
       to="/chamcong"
       max-width="400"
       color="#6AA84F"
       large
       width="80%"
-      class="white--text text-none mx-auto mb-2"
+      class="white--text text-none mb-4"
       >Cham cong</v-btn
     >
     <v-btn
@@ -16,7 +14,7 @@
       color="#6AA84F"
       large
       width="80%"
-      class="white--text text-none mx-auto"
+      class="white--text text-none"
       >Quet khuon mat</v-btn
     >
   </div>

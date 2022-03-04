@@ -1,8 +1,8 @@
 <template>
-  <div class="d-flex flex-column text-center fill-height">
+  <div class="d-flex flex-column text-center fill-height justify-space-around">
     <h1>Nhap ma pin</h1>
     <p :class="text_color">{{ text }}</p>
-    <div class="text-center justify-center" style="max-width: 400px">
+    <div class="text-center mx-auto" style="max-width: 400px">
       <v-otp-input
         ref="test"
         class="pa-3"
@@ -15,7 +15,7 @@
         </v-progress-circular>
       </v-overlay>
     </div>
-    <div>
+    <div class="mt-auto">
       <v-btn
         @click="onLogin"
         max-width="400"
