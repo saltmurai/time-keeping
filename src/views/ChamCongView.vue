@@ -1,10 +1,8 @@
 <template xmlns:v-radio="http://www.w3.org/1999/html">
   <div class="d-flex flex-column fill-height">
-    <v-img
-      src="https://picsum.photos/id/11/500/300"
-      max-height="400px"
-      min-height="300px"
-    ></v-img>
+    <div id="maps">
+      <google-map></google-map>
+    </div>
     <v-card class="fill-height rounded-lg d-flex flex-column">
       <v-dialog
         v-model="dialog"
@@ -122,7 +120,13 @@
 </template>
 
 <script>
+// import GoogleMap from "../components/GoogleMap";
+import GoogleMap from "@/components/GoogleMap";
 export default {
+  components: {
+    GoogleMap,
+    // GoogleMap,
+  },
   data() {
     return {
       buttonColor: "grey",
@@ -149,7 +153,7 @@ export default {
         { class: "Ca chieu 9", time: "8:00 - 9:00" },
       ],
       errorMess: "",
-      location: null,
+      location: { lat: null, lng: null },
     };
   },
   methods: {
@@ -163,23 +167,6 @@ export default {
       console.log(this.chonLop);
     },
   },
-  created() {
-    if (!("geolocation" in navigator)) {
-      this.errorMess = "Geolocation is not available";
-      console.log("No geolocate");
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        this.location = pos;
-        console.log(pos);
-      },
-      (err) => {
-        console.log("Error");
-        this.errorMess = err;
-      }
-    );
-  },
   computed: {
     filtredClass() {
       return this.items.filter((item) =>
@@ -192,3 +179,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#maps {
+  background-color: teal;
+  height: 70%;
+}
+</style>
