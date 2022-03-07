@@ -69,6 +69,9 @@ export default {
         }
       }, 1500);
     },
+    handleEnter() {
+      console.log("it works");
+    },
   },
 };
 </script>

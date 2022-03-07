@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-radio="http://www.w3.org/1999/html">
   <div class="d-flex flex-column fill-height">
     <v-img
       src="https://picsum.photos/id/11/500/300"
@@ -53,6 +53,7 @@
             <v-spacer />
           </v-toolbar>
           <v-text-field
+            v-model="search"
             hide-details
             append-icon="mdi-magnify"
             single-line
@@ -60,23 +61,42 @@
             outlined
             placeholder="Tim lop hoc"
           ></v-text-field>
+          <h3 class="ml-4">Danh sach</h3>
           <v-card-text style="height: 50%">
-            <v-radio-group v-model="dialogm1" column @change="pickClass">
-              <v-radio
-                v-for="item in items"
+            <v-radio-group v-model="dialogm1" column>
+              <div
+                v-for="item in filtredClass"
                 :key="item.class"
-                :label="`${item.class}`"
-                :value="item.class"
-                class="ma-3"
+                :value="items.class"
               >
-                <p>test</p>
-              </v-radio>
+                <div class="d-flex flex-row">
+                  <div class="d-flex flex-column">
+                    <h4>{{ item.class }}</h4>
+                    <p>{{ item.time }}</p>
+                  </div>
+                  <v-spacer></v-spacer>
+                  <v-radio
+                    v-model="item.class"
+                    @click="handleClick(item.class, item.time)"
+                  ></v-radio>
+                </div>
+                <v-divider class="ma-1"></v-divider>
+              </div>
+              <!--              <v-radio-->
+              <!--                v-for="item in items"-->
+              <!--                :key="item.class"-->
+              <!--                :label="`${item.class}`"-->
+              <!--                :value="item.class"-->
+              <!--                class="ma-3"-->
+              <!--              >-->
+              <!--                <p>test</p>-->
+              <!--              </v-radio>-->
             </v-radio-group>
           </v-card-text>
           <v-card-actions>
             <v-btn
               max-width="400"
-              :color="buttonColor"
+              :color="handleButtonColor"
               large
               width="80%"
               class="white--text text-none mb-3 mx-auto"
@@ -90,7 +110,7 @@
       <div class="d-flex flex-column justify-center align-center">
         <v-btn
           max-width="400"
-          :color="buttonColor"
+          :color="handleButtonColor"
           large
           width="80%"
           class="white--text text-none mb-3"
@@ -118,6 +138,7 @@ export default {
       dialog: false,
       chonLop: "Chon lop",
       dialogm1: "",
+      search: "",
       items: [
         { class: "Ca sang 1", time: "8:00 - 9:00" },
         { class: "Ca sang 2", time: "8:00 - 9:00" },
@@ -136,18 +157,46 @@ export default {
         { class: "Ca chieu 8", time: "8:00 - 9:00" },
         { class: "Ca chieu 9", time: "8:00 - 9:00" },
       ],
+      errorMess: "",
+      location: null,
     };
   },
   methods: {
-    pickClass() {
-      console.log(this.dialogm1);
-      this.buttonColor = "#6AA84F";
-    },
     xacNhanButton() {
       if (this.dialogm1 !== null) {
         this.dialog = false;
-        this.chonLop = this.dialogm1;
       }
+    },
+    handleClick(ca, thoiGian) {
+      this.chonLop = ca.concat(" ", thoiGian);
+      console.log(this.chonLop);
+    },
+  },
+  created() {
+    if (!("geolocation" in navigator)) {
+      this.errorMess = "Geolocation is not available";
+      console.log("No geolocate");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        this.location = pos;
+        console.log(pos);
+      },
+      (err) => {
+        console.log("Error");
+        this.errorMess = err;
+      }
+    );
+  },
+  computed: {
+    filtredClass() {
+      return this.items.filter((item) =>
+        item.class.toLowerCase().includes(this.search.toLowerCase())
+      );
+    },
+    handleButtonColor() {
+      return this.chonLop === "Chon lop" ? "grey" : "#6AA84F";
     },
   },
 };
