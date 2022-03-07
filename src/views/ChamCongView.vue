@@ -82,15 +82,6 @@
                 </div>
                 <v-divider class="ma-1"></v-divider>
               </div>
-              <!--              <v-radio-->
-              <!--                v-for="item in items"-->
-              <!--                :key="item.class"-->
-              <!--                :label="`${item.class}`"-->
-              <!--                :value="item.class"-->
-              <!--                class="ma-3"-->
-              <!--              >-->
-              <!--                <p>test</p>-->
-              <!--              </v-radio>-->
             </v-radio-group>
           </v-card-text>
           <v-card-actions>
