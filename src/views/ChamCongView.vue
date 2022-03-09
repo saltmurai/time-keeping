@@ -1,7 +1,7 @@
 <template xmlns:v-radio="http://www.w3.org/1999/html">
   <div class="d-flex flex-column fill-height">
     <div id="maps">
-      <google-map></google-map>
+      <google-map :center="center" :location="currentLoc"></google-map>
     </div>
     <v-card class="fill-height rounded-lg d-flex flex-column">
       <v-dialog
@@ -134,26 +134,53 @@ export default {
       chonLop: "Chon lop",
       dialogm1: "",
       search: "",
-      items: [
-        { class: "Ca sang 1", time: "8:00 - 9:00" },
-        { class: "Ca sang 2", time: "8:00 - 9:00" },
-        { class: "Ca sang 3", time: "8:00 - 9:00" },
-        { class: "Ca sang 4", time: "8:00 - 9:00" },
-        { class: "Ca sang 5", time: "8:00 - 9:00" },
-        { class: "Ca sang 6", time: "8:00 - 9:00" },
-        { class: "Ca sang 7", time: "8:00 - 9:00" },
-        { class: "Ca chieu 1", time: "8:00 - 9:00" },
-        { class: "Ca chieu 2", time: "8:00 - 9:00" },
-        { class: "Ca chieu 3", time: "8:00 - 9:00" },
-        { class: "Ca chieu 4", time: "8:00 - 9:00" },
-        { class: "Ca chieu 5", time: "8:00 - 9:00" },
-        { class: "Ca chieu 6", time: "8:00 - 9:00" },
-        { class: "Ca chieu 7", time: "8:00 - 9:00" },
-        { class: "Ca chieu 8", time: "8:00 - 9:00" },
-        { class: "Ca chieu 9", time: "8:00 - 9:00" },
+      center: { lat: 10, lng: 10 },
+      currentLoc: {
+        locationId: 1,
+        name: "Junsport",
+        street: "Nguyen Chi Thanh",
+        lat: 21.02952,
+        lng: 105.813,
+      },
+      locations: [
+        {
+          locationId: 1,
+          name: "Junsport",
+          street: "Nguyen Chi Thanh",
+          lat: 21.02952,
+          lng: 105.813,
+        },
+        {
+          locationId: 2,
+          name: "Junsport To Huu",
+          street: "To Huu",
+          lat: 20.994745634429954,
+          lng: 105.78940142565692,
+        },
+        {
+          locationId: 3,
+          name: "Junsport",
+          street: "Me tri",
+          lat: 21.016598568961513,
+          lng: 105.78410119695928,
+        },
       ],
-      errorMess: "",
-      location: { lat: null, lng: null },
+      items: [
+        { class: "Ca sang 1", time: "8:00 - 9:00", locationId: 1 },
+        { class: "Ca sang 2", time: "8:00 - 9:00", locationId: 1 },
+        { class: "Ca sang 3", time: "8:00 - 9:00", locationId: 2 },
+        { class: "Ca sang 4", time: "8:00 - 9:00", locationId: 2 },
+        { class: "Ca sang 5", time: "8:00 - 9:00", locationId: 3 },
+        { class: "Ca sang 6", time: "8:00 - 9:00", locationId: 3 },
+        { class: "Ca sang 7", time: "8:00 - 9:00", locationId: 3 },
+        { class: "Ca chieu 1", time: "8:00 - 9:00", locationId: 1 },
+        { class: "Ca chieu 2", time: "8:00 - 9:00", locationId: 1 },
+        { class: "Ca chieu 3", time: "8:00 - 9:00", locationId: 2 },
+        { class: "Ca chieu 4", time: "8:00 - 9:00", locationId: 2 },
+        { class: "Ca chieu 5", time: "8:00 - 9:00", locationId: 2 },
+        { class: "Ca chieu 6", time: "8:00 - 9:00", locationId: 3 },
+        { class: "Ca chieu 7", time: "8:00 - 9:00", locationId: 3 },
+      ],
     };
   },
   methods: {
@@ -166,6 +193,16 @@ export default {
       this.chonLop = ca.concat(" ", thoiGian);
       console.log(this.chonLop);
     },
+    distance(lat1, lng1, lat2, lng2) {
+      // calculate distance given coordinates in metter
+      let p = 0.017453292519943295; // Pi/180
+      let c = Math.cos;
+      let a =
+        0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        (c(lat1 * p) * c(lat2 * p) * (1 - c((lng2 - lng1) * p))) / 2;
+      return 12742 * Math.asin(Math.sqrt(a)) * 1000;
+    },
   },
   computed: {
     filtredClass() {
@@ -176,6 +213,41 @@ export default {
     handleButtonColor() {
       return this.chonLop === "Chon lop" ? "grey" : "#6AA84F";
     },
+    markerPos() {
+      return this.locations.filter((location) => location.locationId === 1);
+    },
+  },
+  created() {
+    if (!("geolocation" in navigator)) {
+      this.errorMess = "Geolocation is not available";
+      console.log("No geolocate");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        this.center.lat = pos.coords.latitude;
+        this.center.lng = pos.coords.longitude;
+        for (const location of this.locations) {
+          let dis = this.distance(
+            this.center.lat,
+            this.center.lng,
+            location.lat,
+            location.lng
+          );
+          if (dis < 2500) {
+            this.currentLoc = location;
+            console.log(this.currentLoc);
+            break;
+          }
+          console.log(dis);
+        }
+      },
+      (err) => {
+        console.log("Error");
+        alert("Can't get location");
+        this.errorMess = err;
+      }
+    );
   },
 };
 </script>
