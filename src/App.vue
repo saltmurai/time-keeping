@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="app">
     <meta
       name="viewport"
       content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
@@ -21,3 +21,10 @@
 <script>
 export default {};
 </script>
+
+<style>
+/*#app {*/
+/*  font-family: Inter;*/
+/*  font-size: x-large;*/
+/*}*/
+</style>

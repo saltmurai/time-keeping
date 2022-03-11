@@ -1,13 +1,17 @@
 <template>
-  <div class="d-flex flex-column text-center fill-height justify-space-around">
-    <h1>Nhap ma pin</h1>
+  <div
+    class="d-flex flex-column text-center fill-height justify-space-around"
+    @keyup.enter="onLogin"
+  >
+    <h1>Nhập mã pin</h1>
     <p :class="text_color">{{ text }}</p>
     <div class="text-center mx-auto" style="max-width: 400px">
       <v-otp-input
         ref="test"
         class="pa-3"
         v-model="otp"
-        @finish="onFinish"
+        @finish="onLogin"
+        @keyup.enter.native="onLogin"
         type="number"
       ></v-otp-input>
       <v-overlay absolute :value="loading">
@@ -45,7 +49,7 @@ export default {
       loading: false,
       snackbar: false,
       otp: "",
-      text: "Vui long nhap ma pin 6 chu so de dang nhap",
+      text: "Vui lòng nhập mã pin 6 chữ số để đăng nhập",
       text_color: "",
       expectedOtp: "123456",
       inputOtp: "",
@@ -55,22 +59,20 @@ export default {
     onFinish(rsp) {
       this.inputOtp = rsp;
     },
-    onLogin() {
+    onLogin(rsp) {
+      this.inputOtp = rsp;
       this.loading = true;
       setTimeout(() => {
-        console.log(this.inputOtp);
         this.loading = false;
         if (this.inputOtp === this.expectedOtp) {
           this.$router.push("/menu");
+          return;
         } else {
-          this.text = "Ma pin chua chinh xac, vui long nhap lai";
+          this.text = "Mã Pin chưa chính xác, vui lòng nhập lại";
           this.$refs.test.reset();
           this.text_color = "red--text";
         }
       }, 1500);
-    },
-    handleEnter() {
-      console.log("it works");
     },
   },
 };

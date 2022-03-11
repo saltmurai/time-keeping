@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column justify-center fill-height align-center">
+  <div class="d-flex flex-column justify-center fill-height align-center pb-16">
     <v-btn
       to="/chamcong"
       max-width="400"
@@ -7,7 +7,7 @@
       large
       width="80%"
       class="white--text text-none mb-4"
-      >Cham cong</v-btn
+      >Chấm Công</v-btn
     >
     <v-btn
       max-width="400"
@@ -15,7 +15,7 @@
       large
       width="80%"
       class="white--text text-none"
-      >Quet khuon mat</v-btn
+      >Quét Khuôn Mặt</v-btn
     >
   </div>
 </template>

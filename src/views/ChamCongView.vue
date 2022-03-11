@@ -26,17 +26,25 @@
             <v-row class="align-start">
               <v-col>
                 <div class="d-flex flex-row align-center pl-2">
-                  <span class="mb-1">Thay doi gio</span>
+                  <span :class="handleChangeTime">Thay đổi giờ</span>
                   <v-spacer></v-spacer>
-                  <v-switch inset></v-switch>
+                  <v-switch
+                    v-model="switchTime"
+                    inset
+                    color="#6AA84F"
+                  ></v-switch>
                 </div>
                 <v-divider></v-divider>
               </v-col>
               <v-col>
                 <div class="d-flex flex-row align-center">
-                  <span class="mb-1">Doi dia diem</span>
+                  <span :class="handleChangeLocation">Đổi địa điểm</span>
                   <v-spacer />
-                  <v-switch inset></v-switch>
+                  <v-switch
+                    v-model="switchLocation"
+                    inset
+                    color="#6AA84F"
+                  ></v-switch>
                 </div>
                 <v-divider></v-divider>
               </v-col>
@@ -47,7 +55,7 @@
           <v-toolbar dense max-height="50px">
             <v-icon @click="dialog = false">mdi-arrow-left</v-icon>
             <v-spacer />
-            <v-toolbar-title>Chon lop hoc</v-toolbar-title>
+            <v-toolbar-title>Chọn lớp học</v-toolbar-title>
             <v-spacer />
           </v-toolbar>
           <v-text-field
@@ -59,7 +67,7 @@
             outlined
             placeholder="Tim lop hoc"
           ></v-text-field>
-          <h3 class="ml-4">Danh sach</h3>
+          <h3 class="ml-4">Danh Sách</h3>
           <v-card-text style="height: 50%">
             <v-radio-group v-model="dialogm1" column>
               <div
@@ -90,7 +98,7 @@
               width="80%"
               class="white--text text-none mb-3 mx-auto"
               @click="xacNhanButton"
-              >Xac nhan</v-btn
+              >Xác nhận</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -103,7 +111,7 @@
           large
           width="80%"
           class="white--text text-none mb-3"
-          >Cham Cong</v-btn
+          >Chấm Công</v-btn
         >
         <v-spacer />
         <v-btn
@@ -120,28 +128,22 @@
 </template>
 
 <script>
-// import GoogleMap from "../components/GoogleMap";
 import GoogleMap from "@/components/GoogleMap";
 export default {
   components: {
     GoogleMap,
-    // GoogleMap,
   },
   data() {
     return {
       buttonColor: "grey",
       dialog: false,
-      chonLop: "Chon lop",
+      chonLop: "Chọn lớp",
+      switchTime: "",
+      switchLocation: "",
       dialogm1: "",
       search: "",
       center: { lat: 10, lng: 10 },
-      currentLoc: {
-        locationId: 1,
-        name: "Junsport",
-        street: "Nguyen Chi Thanh",
-        lat: 21.02952,
-        lng: 105.813,
-      },
+      currentLoc: {},
       locations: [
         {
           locationId: 1,
@@ -205,13 +207,22 @@ export default {
     },
   },
   computed: {
+    /* eslint-disable */
     filtredClass() {
-      return this.items.filter((item) =>
-        item.class.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return this.items
+        .filter((item) =>
+          item.class.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .filter((item) => item.locationId === this.currentLoc.locationId);
     },
     handleButtonColor() {
-      return this.chonLop === "Chon lop" ? "grey" : "#6AA84F";
+      return this.chonLop === "Chọn lớp" ? "grey" : "#6AA84F";
+    },
+    handleChangeTime() {
+      return this.switchTime === true ? "mb-1" : "mb-1 grey--text";
+    },
+    handleChangeLocation() {
+      return this.switchLocation === true ? "mb-1" : "mb-1 grey--text";
     },
     markerPos() {
       return this.locations.filter((location) => location.locationId === 1);
@@ -243,7 +254,6 @@ export default {
         }
       },
       (err) => {
-        console.log("Error");
         alert("Can't get location");
         this.errorMess = err;
       }

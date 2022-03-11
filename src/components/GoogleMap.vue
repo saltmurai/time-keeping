@@ -44,19 +44,16 @@ export default {
         disableDefaultUI: true,
       },
       infoWindow: {
-        position: { lat: location.lat, lng: location.lng },
+        position: { lat: this.location.lat, lng: this.location.lng },
         open: false,
-        template: "",
+        template: ``,
       },
     };
   },
   methods: {
     openInfoWindowTemplate() {
-      const { lat, lng } = this.junsport;
-      this.infoWindow.position = { lat: lat, lng: lng };
-      this.infoWindow.template = `
-                              <b>${this.location.name}</b><br>${this.location.street}<br>Hanoi<br>`;
-      this.infoWindow.open = true;
+      this.infoWindow.open = !this.infoWindow.open;
+      this.infoWindow.template = `<b>${this.location.name}</b><br>${this.location.street}`;
     },
   },
 };
