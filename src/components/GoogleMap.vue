@@ -37,9 +37,6 @@ export default {
   },
   data() {
     return {
-      junsport: { lat: 21.02952, lng: 105.813 },
-      errorMess: "",
-      name: "test",
       mapOptions: {
         disableDefaultUI: true,
       },
