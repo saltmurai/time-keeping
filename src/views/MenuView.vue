@@ -10,6 +10,7 @@
       >Chấm Công</v-btn
     >
     <v-btn
+      to="/quetkhuonmat"
       max-width="400"
       color="#6AA84F"
       large

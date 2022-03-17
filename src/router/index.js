@@ -4,6 +4,7 @@ import store from "./store";
 import LoginView from "../views/LoginView.vue";
 import MenuView from "../views/MenuView.vue";
 import ChamCongView from "@/views/ChamCongView";
+import FaceScanView from "@/views/FaceScanView";
 Vue.use(VueRouter);
 
 const routes = [
@@ -27,6 +28,11 @@ const routes = [
     path: "/chamcong",
     name: "ChamCong",
     component: ChamCongView,
+  },
+  {
+    path: "/quetkhuonmat",
+    name: "Quet Khuon Mat",
+    component: FaceScanView,
   },
 ];
 
