@@ -65,7 +65,8 @@ export default {
       setTimeout(() => {
         this.loading = false;
         if (this.inputOtp === this.expectedOtp) {
-          this.$store.commit("setAuthentication", true);
+          // remove comment for navigation guard
+          // this.$store.commit("setAuthentication", true);
           this.$router.push("/menu");
           return;
         } else {
