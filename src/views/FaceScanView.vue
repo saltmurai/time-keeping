@@ -53,6 +53,9 @@ export default {
         id: "001",
       },
       timerCount: 30,
+      camera: null,
+      canvas: null,
+      videoElement: null,
     };
   },
   mounted() {
@@ -62,42 +65,7 @@ export default {
   },
   methods: {
     init() {
-      // Our input frames will come from here.
       const videoElement = this.$refs.input_video;
-      const canvasElement = this.$refs.canvas;
-      canvasElement.height = window.innerHeight;
-      canvasElement.width = window.innerWidth;
-      const canvasCtx = canvasElement.getContext("2d");
-      const vm = this;
-      function onResults(results) {
-        canvasCtx.save();
-        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-        canvasCtx.drawImage(
-          results.image,
-          0,
-          0,
-          canvasElement.width,
-          canvasElement.height
-        );
-        while (vm.timerCount > 0) {
-          if (results.detections.length > 0) {
-            drawRectangle(canvasCtx, results.detections[0].boundingBox, {
-              color: "blue",
-              lineWidth: 4,
-              fillColor: "#00000000",
-            });
-            drawLandmarks(canvasCtx, results.detections[0].landmarks, {
-              color: "red",
-              radius: 5,
-            });
-            setTimeout(function () {
-              camera.stop();
-              vm.dialog = true;
-            }, 2000);
-          }
-          canvasCtx.restore();
-        }
-      }
       const faceDetection = new FaceDetection({
         locateFile: (file) => {
           return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4/${file}`;
@@ -108,16 +76,45 @@ export default {
         model: "short",
         minDetectionConfidence: 0.9,
       });
-      faceDetection.onResults(onResults);
+      faceDetection.onResults(this.onResults);
 
-      const camera = new Camera(videoElement, {
+      this.camera = new Camera(videoElement, {
         onFrame: async () => {
           await faceDetection.send({ image: videoElement });
         },
         width: window.innerWidth,
         height: window.innerHeight,
       });
-      camera.start();
+      this.camera.start();
+    },
+    onResults(results) {
+      const canvasElement = this.$refs.canvas;
+      canvasElement.height = window.innerHeight;
+      canvasElement.width = window.innerWidth;
+      const canvasCtx = canvasElement.getContext("2d");
+      canvasCtx.save();
+      canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+      canvasCtx.drawImage(
+        results.image,
+        0,
+        0,
+        canvasElement.width,
+        canvasElement.height
+      );
+      if (results.detections.length > 0) {
+        drawRectangle(canvasCtx, results.detections[0].boundingBox, {
+          color: "blue",
+          lineWidth: 4,
+          fillColor: "#00000000",
+        });
+        drawLandmarks(canvasCtx, results.detections[0].landmarks, {
+          color: "red",
+          radius: 5,
+        });
+        this.camera.stop();
+        this.dialog = true;
+      }
+      canvasCtx.restore();
     },
   },
   watch: {
