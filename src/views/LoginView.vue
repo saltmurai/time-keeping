@@ -1,5 +1,6 @@
 <template>
   <div
+    id="login-container"
     class="d-flex flex-column text-center fill-height justify-space-around"
     @keyup.enter="onLogin"
   >
@@ -79,3 +80,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>

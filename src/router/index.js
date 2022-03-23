@@ -5,6 +5,7 @@ import LoginView from "../views/LoginView.vue";
 import MenuView from "../views/MenuView.vue";
 import ChamCongView from "@/views/ChamCongView";
 import FaceScanView from "@/views/FaceScanView";
+import ConfirmationView from "@/views/ConfirmationView";
 Vue.use(VueRouter);
 
 const routes = [
@@ -30,9 +31,14 @@ const routes = [
     component: ChamCongView,
   },
   {
-    path: "/quetkhuonmat",
+    path: "/chamcongface",
     name: "Quet Khuon Mat",
     component: FaceScanView,
+  },
+  {
+    path: "/confirmation",
+    name: "Confirmation",
+    component: ConfirmationView,
   },
 ];
 

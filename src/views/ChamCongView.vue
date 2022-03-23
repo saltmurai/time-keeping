@@ -101,7 +101,8 @@
           <v-card-actions>
             <v-btn
               max-width="400"
-              :color="handleButtonColor"
+              :disabled="handleButton"
+              color="green"
               large
               width="80%"
               class="white--text text-none mb-3 mx-auto"
@@ -115,7 +116,9 @@
       <div class="d-flex flex-column justify-center align-center">
         <v-btn
           max-width="400"
-          :color="handleButtonColor"
+          :disabled="handleButton"
+          to="/chamcongface"
+          color="green"
           large
           width="80%"
           class="white--text text-none mb-3"
@@ -223,8 +226,8 @@ export default {
         )
         .filter((item) => item.locationId === this.currentLoc.locationId);
     },
-    handleButtonColor() {
-      return this.chonLop === "Chọn lớp" ? "grey" : "#6AA84F";
+    handleButton() {
+      return this.chonLop === "Chọn lớp" ? true : false;
     },
     handleChangeTime() {
       return this.switchTime === true ? "mb-1" : "mb-1 grey--text";

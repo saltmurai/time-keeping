@@ -1,9 +1,5 @@
 <template>
   <v-app id="app">
-    <meta
-      name="viewport"
-      content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0"
-    />
     <v-app-bar v-if="$route.meta.showNav" color="#6AA64F" app>
       <v-img
         class="mx-auto"
@@ -19,12 +15,33 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      vh: null,
+    };
+  },
+  methods: {
+    init() {
+      this.vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${this.vh}px`);
+    },
+    onResize(event) {
+      console.log("Resized", event);
+      this.vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${this.vh}px`);
+    },
+  },
+  mounted() {
+    window.addEventListener("resize", this.onResize);
+  },
+};
 </script>
 
 <style>
-/*#app {*/
-/*  font-family: Inter;*/
-/*  font-size: x-large;*/
-/*}*/
+html,
+body {
+  overflow-x: hidden;
+  height: 100%;
+}
 </style>
