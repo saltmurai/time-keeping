@@ -80,4 +80,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+#login-container {
+  height: 100%;
+}
+</style>

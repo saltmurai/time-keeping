@@ -17,23 +17,7 @@
 <script>
 export default {
   data() {
-    return {
-      vh: null,
-    };
-  },
-  methods: {
-    init() {
-      this.vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${this.vh}px`);
-    },
-    onResize(event) {
-      console.log("Resized", event);
-      this.vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${this.vh}px`);
-    },
-  },
-  mounted() {
-    window.addEventListener("resize", this.onResize);
+    return {};
   },
 };
 </script>
@@ -42,6 +26,8 @@ export default {
 html,
 body {
   overflow-x: hidden;
-  height: 100%;
+}
+#app {
+  display: flex;
 }
 </style>

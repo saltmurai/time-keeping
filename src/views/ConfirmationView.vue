@@ -7,16 +7,11 @@ export default {};
       ><v-toolbar-title class="mx-auto">Cham cong thanh cong</v-toolbar-title>
     </v-toolbar>
     <div class="d-flex flex-column align-center white mt-3 pa-3">
-      <v-img
-        lazy-src="https://picsum.photos/id/11/10/6"
-        height="300"
-        width="300"
-        src="https://picsum.photos/id/11/500/300"
-      ></v-img>
+      <v-img height="240" width="262" src="../assets/success.png"></v-img>
       <span class="green--text">Cham cong thanh cong</span>
       <span>Ban da thuc hien cham cong thanh cong</span>
     </div>
-    <div class="white mt-3 pa-3">
+    <div class="white mt-3 pa-3 pb-10">
       <div class="ml-3 mr-3">
         <div class="grey--text text-caption">Buoi day</div>
         <div>Ca Sang 1: 08:00 - 10:00</div>
@@ -40,12 +35,12 @@ export default {};
         <v-divider />
       </div>
     </div>
-    <div class="white fill-height d-flex flex-column align-center mt-3">
+    <div class="fill-height d-flex flex-column align-center mt-3">
       <v-spacer />
       <v-btn width="20%" class="text-none text-h5 mb-3" plain min-width="120px"
         ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
       >
-      <footer class="grey--text">Trung tam bong ro JunSport</footer>
+      <footer class="grey--text mb-5">Trung tam bong ro JunSport</footer>
     </div>
   </div>
 </template>
