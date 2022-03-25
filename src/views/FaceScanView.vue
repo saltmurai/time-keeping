@@ -28,6 +28,7 @@ export default {
       canvas: null,
       videoElement: null,
       faceDetection: null,
+      lastFrame: null,
     };
   },
   mounted() {
@@ -62,6 +63,7 @@ export default {
       this.canvasElement.height = window.innerHeight;
       this.canvasElement.width = window.innerWidth;
       this.canvasCtx = this.canvasElement.getContext("2d");
+      const vm = this;
       this.canvasCtx.save();
       this.canvasCtx.clearRect(
         0,
@@ -86,13 +88,48 @@ export default {
           color: "red",
           radius: 5,
         });
-        console.log(results.image.toDataURL("image/png"));
         // Pause the countdown timer and stop the camera
+        this.lastFrame = new Image();
+        this.lastFrame.onload = function () {
+          vm.camera.stop();
+          vm.canvasCtx.drawImage(
+            vm.lastFrame,
+            0,
+            0,
+            vm.canvasElement.width,
+            vm.canvasElement.height
+          );
+        };
+        this.lastFrame.src = results.image.toDataURL();
+        // this.canvasCtx.save();
+        // this.canvasCtx.clearRect(
+        //   0,
+        //   0,
+        //   this.canvasElement.width,
+        //   this.canvasElement.height
+        // );
+        // this.canvasCtx.drawImage(lastFrame, 0, 0);
         this.pause();
+        this.canvasCtx.clearRect(
+          0,
+          0,
+          this.canvasElement.width,
+          this.canvasElement.height
+        );
+        this.canvasCtx.drawImage(
+          results.image,
+          0,
+          0,
+          this.canvasElement.width,
+          this.canvasElement.height
+        );
+
+        // this.pause();
         this.bottomDialog = true;
-        setTimeout(() => {
-          this.$router.push("confirmation");
-        }, 2000);
+        // setTimeout(() => {
+        //   this.$router.push("confirmation");
+        // }, 2000);
+        return;
       }
       this.canvasCtx.restore();
     },
@@ -101,8 +138,8 @@ export default {
       this.camera.start();
     },
     pause() {
+      //console.log(this.lastFrame);
       this.timerEnabled = false;
-      this.camera.stop();
     },
   },
   watch: {
@@ -209,7 +246,6 @@ export default {
 }
 #output_canvas {
   display: block;
-  background-color: teal;
   height: 100vh;
   width: 100vw;
 }
