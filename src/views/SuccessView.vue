@@ -4,33 +4,33 @@ export default {};
 <template>
   <div id="container" class="d-flex flex-column fill-height">
     <v-toolbar elevation="2" max-height="55px"
-      ><v-toolbar-title class="mx-auto">Cham cong thanh cong</v-toolbar-title>
+      ><v-toolbar-title class="mx-auto">Chấm công thành công</v-toolbar-title>
     </v-toolbar>
     <div class="d-flex flex-column align-center white mt-3 pa-3">
       <v-img height="240" width="262" src="../assets/success.png"></v-img>
-      <span class="green--text">Cham cong thanh cong</span>
-      <span>Ban da thuc hien cham cong thanh cong</span>
+      <span class="green--text">Chấm công thành công</span>
+      <span>Bạn đã thực hiện chấm công thành công</span>
     </div>
     <div class="white mt-3 pa-3 pb-10">
       <div class="ml-3 mr-3">
-        <div class="grey--text text-caption">Buoi day</div>
-        <div>Ca Sang 1: 08:00 - 10:00</div>
+        <div class="grey--text text-caption">Buổi dạy</div>
+        <div>Ca Sáng 1: 08:00 - 10:00</div>
         <v-divider />
       </div>
       <div class="ml-3 mr-3">
-        <div class="grey--text text-caption">Nhan Su</div>
+        <div class="grey--text text-caption">Nhân sự</div>
         <div>
           <v-avatar size="25">
             <img
               src="https://cdn.vuetifyjs.com/images/john.jpg"
               alt="John"
             /> </v-avatar
-          ><span class="ml-2">Nguyen Quang Minh</span>
+          ><span class="ml-2">Nguyễn Quang Minh</span>
         </div>
         <v-divider class="mt-1" />
       </div>
       <div class="ml-3 mr-3">
-        <div class="grey--text text-caption">Thoi gian ghi nhan</div>
+        <div class="grey--text text-caption">Thời gian ghi nhận</div>
         <div><v-icon>mdi-domain</v-icon> <span>8.00 AM 20/03/2021</span></div>
         <v-divider />
       </div>
@@ -40,7 +40,7 @@ export default {};
       <v-btn width="20%" class="text-none text-h5 mb-3" plain min-width="120px"
         ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
       >
-      <footer class="grey--text mb-5">Trung tam bong ro JunSport</footer>
+      <footer class="grey--text mb-5">Trung tâm bóng rổ Junsport</footer>
     </div>
   </div>
 </template>

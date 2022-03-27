@@ -1,7 +1,7 @@
 <script>
 import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
-import { drawRectangle, drawLandmarks } from "@mediapipe/drawing_utils";
+import { drawLandmarks, drawRectangle } from "@mediapipe/drawing_utils";
 
 export default {
   name: "FaceModel",
@@ -63,7 +63,6 @@ export default {
       this.canvasElement.height = window.innerHeight;
       this.canvasElement.width = window.innerWidth;
       this.canvasCtx = this.canvasElement.getContext("2d");
-      const vm = this;
       this.canvasCtx.save();
       this.canvasCtx.clearRect(
         0,
@@ -88,47 +87,11 @@ export default {
           color: "red",
           radius: 5,
         });
-        // Pause the countdown timer and stop the camera
-        this.lastFrame = new Image();
-        this.lastFrame.onload = function () {
-          vm.camera.stop();
-          vm.canvasCtx.drawImage(
-            vm.lastFrame,
-            0,
-            0,
-            vm.canvasElement.width,
-            vm.canvasElement.height
-          );
-        };
-        this.lastFrame.src = results.image.toDataURL();
-        // this.canvasCtx.save();
-        // this.canvasCtx.clearRect(
-        //   0,
-        //   0,
-        //   this.canvasElement.width,
-        //   this.canvasElement.height
-        // );
-        // this.canvasCtx.drawImage(lastFrame, 0, 0);
         this.pause();
-        this.canvasCtx.clearRect(
-          0,
-          0,
-          this.canvasElement.width,
-          this.canvasElement.height
-        );
-        this.canvasCtx.drawImage(
-          results.image,
-          0,
-          0,
-          this.canvasElement.width,
-          this.canvasElement.height
-        );
-
-        // this.pause();
         this.bottomDialog = true;
-        // setTimeout(() => {
-        //   this.$router.push("confirmation");
-        // }, 2000);
+        setTimeout(() => {
+          this.$router.push("confirmation");
+        }, 2000);
         return;
       }
       this.canvasCtx.restore();
@@ -139,6 +102,7 @@ export default {
     },
     pause() {
       //console.log(this.lastFrame);
+      this.camera.stop();
       this.timerEnabled = false;
     },
   },

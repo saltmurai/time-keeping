@@ -5,7 +5,8 @@ import LoginView from "../views/LoginView.vue";
 import MenuView from "../views/MenuView.vue";
 import ChamCongView from "@/views/ChamCongView";
 import FaceScanView from "@/views/FaceScanView";
-import ConfirmationView from "@/views/ConfirmationView";
+import SuccessView from "@/views/SuccessView";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -38,7 +39,7 @@ const routes = [
   {
     path: "/confirmation",
     name: "Confirmation",
-    component: ConfirmationView,
+    component: SuccessView,
   },
 ];
 
