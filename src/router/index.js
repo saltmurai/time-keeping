@@ -37,8 +37,8 @@ const routes = [
     component: FaceScanView,
   },
   {
-    path: "/confirmation",
-    name: "Confirmation",
+    path: "/success",
+    name: "Success",
     component: SuccessView,
   },
 ];
