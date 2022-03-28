@@ -17,10 +17,10 @@ export default {
         id: "001",
       },
       popUpCard: {
-        icon: "mdi-wifi",
+        icon: "mdi-account-circle-outline",
         error: "Placeholder text",
         errorText: "Placeholder text",
-        action: "placeholder",
+        action: "Thu lai",
       },
       timerCount: 3,
       timerEnabled: true,
@@ -76,11 +76,10 @@ export default {
         this.canvasElement.width,
         this.canvasElement.height
       );
-      if (results.detections.length > 0 || this.timerCount === 0) {
-        console.log("work");
-        this.resultImage = results.image;
+      this.resultImage = results.image;
+      if (results.detections.length > 0) {
+        console.log(this.resultImage);
         this.pause();
-        this.middleDialog = true;
         this.bottomDialog = true;
         this.renderImage();
       }
@@ -107,6 +106,11 @@ export default {
         this.canvasElement.height
       );
     },
+    retry() {
+      this.middleDialog = false;
+      this.play();
+      this.timerCount = 3;
+    },
   },
   watch: {
     timerEnabled(value) {
@@ -123,6 +127,12 @@ export default {
           setTimeout(() => {
             this.timerCount--;
           }, 1000);
+        } else if (value === 0) {
+          this.camera.stop();
+          this.popUpCard.error = "Khong nhan dien duoc khuon mat";
+          this.popUpCard.errorText =
+            "Hãy thử chấm công lại 2 lần trước khi xác nhân đây là lỗi và gửi báo cáo lỗi.";
+          this.middleDialog = true;
         }
       },
       immediate: true,
@@ -144,36 +154,35 @@ export default {
     <span class="count-down pt-10 white--text">{{ timerCount }}s</span>
     <v-dialog content-class="rounded-dialog" v-model="middleDialog" persistent>
       <v-card>
-        <v-card>
-          <v-card-title class="text-h6 d-flex flex-column">
-            <v-icon>{{ popUpCard.icon }}</v-icon>
-            <span class="text-h5 red--text">{{ popUpCard.error }}</span>
-          </v-card-title>
-          <v-card-text class="d-flex justify-center"
-            >{{ popUpCard.errorText }}
-          </v-card-text>
-          <v-card-actions class="d-flex flex-column">
-            <v-btn
-              max-width="400"
-              color="#6AA84F"
-              large
-              width="95%"
-              class="white--text text-none mx-auto mb-1"
-              >{{ popUpCard.action }}
-            </v-btn>
-            <v-spacer />
-            <v-btn
-              width="20%"
-              depressed
-              class="mx-auto text-none grey--text"
-              small
-              plain
-            >
-              <v-icon left>mdi-bug</v-icon>
-              Báo lỗi
-            </v-btn>
-          </v-card-actions>
-        </v-card>
+        <v-card-title class="d-flex flex-column mt-2">
+          <v-icon x-large>{{ popUpCard.icon }}</v-icon>
+          <span class="red--text mt-3">{{ popUpCard.error }}</span>
+        </v-card-title>
+        <v-card-text class="text-center"
+          >{{ popUpCard.errorText }}
+        </v-card-text>
+        <v-card-actions class="d-flex flex-column">
+          <v-btn
+            max-width="400"
+            color="#6AA84F"
+            large
+            width="95%"
+            class="white--text text-none mx-auto mb-1"
+            @click="retry"
+            >{{ popUpCard.action }}
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            width="20%"
+            depressed
+            class="mx-auto text-none grey--text"
+            small
+            plain
+          >
+            <v-icon left>mdi-bug</v-icon>
+            Báo lỗi
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog
@@ -185,7 +194,7 @@ export default {
       max-width="200px"
     >
       <v-card>
-        <v-card-title class="d-flex justify-center pa-2">
+        <v-card-title class="d-flex justify-center pa-2 mt-4">
           <v-icon color="green" large>mdi-account-circle-outline</v-icon>
         </v-card-title>
         <v-card-text
