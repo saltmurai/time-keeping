@@ -37,6 +37,7 @@
         class="mb-8 mx-auto text-none grey--text"
         small
         plain
+        to="/bug-report"
         ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
       >
     </div>

@@ -3,10 +3,12 @@ import VueRouter from "vue-router";
 // import store from "./store";
 import LoginView from "../views/LoginView.vue";
 import MenuView from "../views/MenuView.vue";
-import PickLocation from "@/views/PickLocationView";
-import FaceConfirmation from "@/views/FaceConfirmation";
+import PickLocationView from "@/views/PickLocationView";
+import FaceConfirmationView from "@/views/FaceConfirmation";
 import SuccessView from "@/views/SuccessView";
-import FaceScan from "@/views/FaceScanView";
+import FaceScanView from "@/views/FaceScanView";
+import BugReportView from "@/views/BugReportView";
+import BugReportSuccessView from "@/views/BugReportSuccessView";
 
 Vue.use(VueRouter);
 
@@ -30,12 +32,12 @@ const routes = [
   {
     path: "/pick-location",
     name: "PickLocation",
-    component: PickLocation,
+    component: PickLocationView,
   },
   {
     path: "/face-confirmation",
     name: "NhanDien",
-    component: FaceConfirmation,
+    component: FaceConfirmationView,
   },
   {
     path: "/success",
@@ -45,7 +47,17 @@ const routes = [
   {
     path: "/face-scan",
     name: "FaceScan",
-    component: FaceScan,
+    component: FaceScanView,
+  },
+  {
+    path: "/bug-report",
+    name: "BugReport",
+    component: BugReportView,
+  },
+  {
+    path: "/bug-report-success",
+    name: "BugReportSuccess",
+    component: BugReportSuccessView,
   },
 ];
 
