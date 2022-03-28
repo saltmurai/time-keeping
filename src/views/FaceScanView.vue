@@ -1,160 +1,150 @@
 <script>
-import { FaceDetection } from "@mediapipe/face_detection";
-import { Camera } from "@mediapipe/camera_utils";
-// import { drawLandmarks, drawRectangle } from "@mediapipe/drawing_utils";
-
+// import { Camera } from "@mediapipe/camera_utils";
 export default {
-  name: "FaceModel",
-  components: {
-    // PopUpId,
-  },
-  data: function () {
+  data() {
     return {
-      bottomDialog: false,
-      middleDialog: false,
-      user: {
-        name: "Nguyen Quang Minh",
-        id: "001",
-      },
+      pickedStaff: null,
       popUpCard: {
-        icon: "mdi-account-circle-outline",
-        error: "Placeholder text",
-        errorText: "Placeholder text",
-        action: "Thu lai",
+        icon: "mdi-account-cicle-outline",
+        error: "Dao tao du lieu thanh cong",
+        errorText:
+          "Ban da co du lieu khuon mat, gio ban co the bat dau cham cong",
+        action: "Cham cong",
       },
-      timerCount: 3,
-      timerEnabled: true,
-      camera: null,
-      canvasElement: null,
-      videoElement: null,
-      faceDetection: null,
-      resultImage: null,
+      search: "",
+      middleDialog: false,
+      bottomDialog: false,
+      pickStaffDialog: true,
+      radioGroup: "",
+      infoDialog: {
+        title: "Quet mat thanh cong",
+        text: "Vui long doi qua trinh dao tao du lieu",
+      },
+      staffs: [
+        { staffId: "0001", avatar: "", name: "Nguyen Van Nam" },
+        { staffId: "0002", avatar: "", name: "Luong Mai" },
+        { staffId: "0003", avatar: "", name: "Tran Manh Tuan" },
+        { staffId: "0004", avatar: "", name: "Le Hoai My" },
+        { staffId: "0005", avatar: "", name: "Hoang Manh Quyet" },
+        { staffId: "0006", avatar: "", name: "Chu Thi Hao" },
+        { staffId: "0007", avatar: "", name: "Nguyen Lam Anh" },
+        { staffId: "0008", avatar: "", name: "Hua Ha Vi" },
+        { staffId: "0009", avatar: "", name: "Le Quyet Thang" },
+        { staffId: "0010", avatar: "", name: "Nguyen Quang Thanh" },
+        { staffId: "0011", avatar: "", name: "Nguyen Huu Chien" },
+      ],
     };
+  },
+  methods: {
+    init() {
+      const canvas = this.$refs.canvas;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "teal";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    },
+    handleClickMiddleDialog() {
+      this.$router.push("face-confirmation");
+    },
+    handleClickRadio(staff) {
+      console.log(this.pickStaffDialog);
+      console.log(staff);
+      this.pickedStaff = staff;
+    },
+    handleClickXacNhanButton() {
+      this.pickStaffDialog = false;
+      this.bottomDialog = true;
+      setTimeout(() => {
+        this.middleDialog = true;
+      }, 1000);
+    },
   },
   mounted() {
     this.init();
   },
-  methods: {
-    init() {
-      this.videoElement = this.$refs.input_video;
-      this.canvasElement = this.$refs.canvas;
-      this.canvasElement.height = window.innerHeight;
-      this.canvasElement.width = window.innerWidth;
-      this.canvasCtx = this.canvasElement.getContext("2d");
-      this.faceDetection = new FaceDetection({
-        locateFile: (file) => {
-          return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection@0.4/${file}`;
-        },
-      });
-      this.faceDetection.setOptions({
-        selfieMode: true,
-        model: "short",
-        minDetectionConfidence: 0.9,
-      });
-      this.faceDetection.onResults(this.onResults);
-      this.camera = new Camera(this.videoElement, {
-        onFrame: async () => {
-          await this.faceDetection.send({ image: this.videoElement });
-        },
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-      this.play();
-    },
-    onResults(results) {
-      this.canvasCtx.save();
-      this.canvasCtx.clearRect(
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      this.canvasCtx.drawImage(
-        results.image,
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-      this.resultImage = results.image;
-      if (results.detections.length > 0) {
-        console.log(this.resultImage);
-        this.pause();
-        this.bottomDialog = true;
-        this.renderImage();
-      }
-      this.canvasCtx.restore();
-    },
-    play() {
-      this.camera.start();
-      this.timerEnabled = true;
-    },
-    pause() {
-      //console.log(this.lastFrame)
-      this.timerEnabled = false;
-      this.camera.stop();
-    },
-    renderImage() {
-      this.lastFrameCanvas.width = window.innerWidth;
-      this.lastFrameCanvas.height = window.innerHeight;
-      const lastFrameCanvasCtx = this.lastFrameCanvas.getContext("2d");
-      lastFrameCanvasCtx.drawImage(
-        this.resultImage,
-        0,
-        0,
-        this.canvasElement.width,
-        this.canvasElement.height
-      );
-    },
-    retry() {
-      this.middleDialog = false;
-      this.play();
-      this.timerCount = 3;
-    },
-  },
-  watch: {
-    timerEnabled(value) {
-      if (value) {
-        setTimeout(() => {
-          this.timerCount--;
-        }, 1000);
-      }
-    },
-
-    timerCount: {
-      handler(value) {
-        if (value > 0 && this.timerEnabled) {
-          setTimeout(() => {
-            this.timerCount--;
-          }, 1000);
-        } else if (value === 0) {
-          this.camera.stop();
-          this.popUpCard.error = "Khong nhan dien duoc khuon mat";
-          this.popUpCard.errorText =
-            "Hãy thử chấm công lại 2 lần trước khi xác nhân đây là lỗi và gửi báo cáo lỗi.";
-          this.middleDialog = true;
-        }
-      },
-      immediate: true,
-    },
-  },
   computed: {
-    toggleCanvas() {
-      return this.timerEnabled;
+    filteredStaff() {
+      return this.staffs.filter((staff) =>
+        staff.name.toLowerCase().includes(this.search.toLowerCase())
+      );
     },
-    lastFrameCanvas() {
-      return this.$refs.lastFrame;
+    isChooseStaff() {
+      return this.pickedStaff === null;
     },
   },
 };
 </script>
 
 <template>
-  <div id="container" class="d-flex justify-center">
-    <span class="count-down pt-10 white--text">{{ timerCount }}s</span>
+  <div class="d-flex flex-row fill-height">
+    <v-dialog
+      v-model="pickStaffDialog"
+      fullscreen
+      scrollable
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dense max-height="50px" elevation="1">
+          <v-icon @click="pickStaffDialog = false">mdi-arrow-left</v-icon>
+          <v-spacer />
+          <v-toolbar-title>Chon nhan su</v-toolbar-title>
+          <v-spacer />
+        </v-toolbar>
+        <v-text-field
+          v-model="search"
+          hide-details
+          append-icon="mdi-magnify"
+          single-line
+          class="ma-3 shrink"
+          outlined
+          placeholder="Tim lop hoc"
+        ></v-text-field>
+        <h3 class="ml-4">Danh Sách</h3>
+        <v-card-text>
+          <v-radio-group v-model="radioGroup" column>
+            <div
+              v-for="staff in filteredStaff"
+              :key="staff.staffId"
+              :value="staff.name"
+            >
+              <div class="d-flex flex-row align-center mt-3">
+                <v-avatar size="32">
+                  <img
+                    src="https://cdn.vuetifyjs.com/images/john.jpg"
+                    alt="John"
+                  />
+                </v-avatar>
+                <span class="ml-2">{{ staff.name }}</span>
+                <v-spacer></v-spacer>
+                <v-radio
+                  v-model="staff.staffId"
+                  @click="handleClickRadio(staff)"
+                ></v-radio>
+              </div>
+              <v-divider class="ma-1 mt-3"></v-divider>
+            </div>
+          </v-radio-group>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            max-width="400"
+            color="green"
+            :disabled="isChooseStaff"
+            large
+            width="80%"
+            class="white--text text-none mb-3 mx-auto"
+            @click="handleClickXacNhanButton"
+            >Xác nhận</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog content-class="rounded-dialog" v-model="middleDialog" persistent>
       <v-card>
-        <v-card-title class="d-flex flex-column mt-2">
+        <v-card-title class="d-flex flex-column">
           <v-icon x-large>{{ popUpCard.icon }}</v-icon>
           <span class="red--text mt-3">{{ popUpCard.error }}</span>
         </v-card-title>
@@ -168,7 +158,7 @@ export default {
             large
             width="95%"
             class="white--text text-none mx-auto mb-1"
-            @click="retry"
+            @click="handleClickMiddleDialog"
             >{{ popUpCard.action }}
           </v-btn>
           <v-spacer />
@@ -191,27 +181,20 @@ export default {
       content-class="bottom-dialog"
       persistent
       hide-overlay
-      max-width="200px"
+      max-width="300px"
     >
-      <v-card>
-        <v-card-title class="d-flex justify-center pa-2 mt-4">
+      <v-card elevation="0">
+        <v-card-title class="flex-column pa-2 text-body-1">
           <v-icon color="green" large>mdi-account-circle-outline</v-icon>
+          <span class="green--text">{{ infoDialog.title }}</span>
         </v-card-title>
-        <v-card-text
-          class="d-flex justify-center align-center flex-column pb-2"
-        >
-          <span class="green--text">{{ user.name }}</span>
-          <span>Ma nhan vien: {{ user.id }}</span>
+        <v-card-text class="text-center">
+          <span>{{ infoDialog.text }}</span>
         </v-card-text>
       </v-card>
     </v-dialog>
-    <video ref="input_video" id="input_video"></video>
-    <div v-show="toggleCanvas" class="canvas-container">
-      <canvas ref="canvas" id="output_canvas"></canvas>
-    </div>
-    <div v-show="!toggleCanvas">
-      <canvas ref="lastFrame" id="last-frame"></canvas>
-    </div>
+    <video ref="camera" id="camera"></video>
+    <canvas ref="canvas" id="canvas"></canvas>
     <v-btn
       width="100%"
       depressed
@@ -223,32 +206,17 @@ export default {
     </v-btn>
   </div>
 </template>
+
 <style scoped>
-#container {
-  overflow: hidden;
-}
-#last-frame {
-  display: block;
-}
-#input_video {
-  display: none;
-}
-
-#output_canvas {
-  display: block;
-}
-
-.count-down {
-  position: absolute;
-}
-
-/*Align dialog to botom*/
 >>> .bottom-dialog {
   align-self: flex-end;
   margin-bottom: 50px;
+  elevation: 0;
 }
-
->>> .rounded-dialog {
-  border-radius: 10px;
+#canvas {
+  display: block;
+}
+#camera {
+  display: none;
 }
 </style>

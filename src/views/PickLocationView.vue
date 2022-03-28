@@ -73,13 +73,13 @@
             single-line
             class="ma-3 shrink"
             outlined
-            placeholder="Tim lop hoc"
+            placeholder="Tim Nhan Su"
           ></v-text-field>
           <h3 class="ml-4">Danh Sách</h3>
           <v-card-text style="height: 50%">
             <v-radio-group v-model="dialogm1" column>
               <div
-                v-for="item in filtredClass"
+                v-for="item in filteredClass"
                 :key="item.class"
                 :value="items.class"
               >
@@ -117,7 +117,7 @@
         <v-btn
           max-width="400"
           :disabled="handleButton"
-          to="/chamcongface"
+          to="/face-confirmation"
           color="green"
           large
           width="80%"
@@ -204,7 +204,6 @@ export default {
     },
     handleClick(ca, thoiGian) {
       this.chonLop = ca.concat(" ", thoiGian);
-      console.log(this.chonLop);
     },
     distance(lat1, lng1, lat2, lng2) {
       // calculate distance given coordinates in metter
@@ -219,7 +218,7 @@ export default {
   },
   computed: {
     /* eslint-disable */
-    filtredClass() {
+    filteredClass() {
       return this.items
         .filter((item) =>
           item.class.toLowerCase().includes(this.search.toLowerCase())

@@ -3,9 +3,10 @@ import VueRouter from "vue-router";
 // import store from "./store";
 import LoginView from "../views/LoginView.vue";
 import MenuView from "../views/MenuView.vue";
-import ChamCongView from "@/views/ChamCongView";
-import FaceScanView from "@/views/FaceScanView";
+import PickLocation from "@/views/PickLocationView";
+import FaceConfirmation from "@/views/FaceConfirmation";
 import SuccessView from "@/views/SuccessView";
+import FaceScan from "@/views/FaceScanView";
 
 Vue.use(VueRouter);
 
@@ -27,19 +28,24 @@ const routes = [
     },
   },
   {
-    path: "/chamcong",
-    name: "ChamCong",
-    component: ChamCongView,
+    path: "/pick-location",
+    name: "PickLocation",
+    component: PickLocation,
   },
   {
-    path: "/chamcongface",
-    name: "Quet Khuon Mat",
-    component: FaceScanView,
+    path: "/face-confirmation",
+    name: "NhanDien",
+    component: FaceConfirmation,
   },
   {
     path: "/success",
     name: "Success",
     component: SuccessView,
+  },
+  {
+    path: "/face-scan",
+    name: "FaceScan",
+    component: FaceScan,
   },
 ];
 
