@@ -168,6 +168,7 @@ export default {
             class="mx-auto text-none grey--text"
             small
             plain
+            to="/bug-report"
           >
             <v-icon left>mdi-bug</v-icon>
             Báo lỗi

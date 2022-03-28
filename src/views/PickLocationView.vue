@@ -130,6 +130,7 @@
           depressed
           class="mb-8 text-none grey--text"
           small
+          to="/bug-report"
           plain
           ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
         >

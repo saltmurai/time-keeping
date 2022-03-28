@@ -19,7 +19,7 @@ export default {
         errorText: "Placeholder text",
         action: "Thu lai",
       },
-      timerCount: 3,
+      timerCount: 30,
       timerEnabled: true,
       camera: null,
       canvasElement: null,
@@ -109,7 +109,7 @@ export default {
     retry() {
       this.middleDialog = false;
       this.play();
-      this.timerCount = 3;
+      this.timerCount = 30;
     },
   },
   watch: {
@@ -216,6 +216,7 @@ export default {
       width="100%"
       depressed
       absolute
+      to="/bug-report"
       class="text-none grey--text align-self-end"
     >
       <v-icon left>mdi-bug</v-icon>

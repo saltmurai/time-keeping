@@ -37,7 +37,12 @@ export default {};
     </div>
     <div class="fill-height d-flex flex-column align-center mt-3">
       <v-spacer />
-      <v-btn width="20%" class="text-none text-h5 mb-3" plain min-width="120px"
+      <v-btn
+        width="20%"
+        class="text-none text-h5 mb-3"
+        to="/bug-report"
+        plain
+        min-width="120px"
         ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
       >
       <footer class="grey--text mb-5">Trung tâm bóng rổ Junsport</footer>
