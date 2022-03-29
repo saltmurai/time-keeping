@@ -33,29 +33,29 @@ export default {
     <v-toolbar dense max-height="50px" flat>
       <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
       <v-spacer />
-      <v-toolbar-title>Bao loi</v-toolbar-title>
+      <v-toolbar-title>Báo lỗi </v-toolbar-title>
       <v-spacer />
     </v-toolbar>
     <v-card class="mt-3" flat>
-      <v-card-title> Chon loai loi </v-card-title>
+      <v-card-title> Chọn loại lỗi </v-card-title>
       <v-card-text>
         <v-chip-group active-class="green--text green" column>
-          <v-chip outlined> Khong nhan dien duoc </v-chip>
-          <v-chip outlined> Thieu buoi day / Thieu ten nhan su </v-chip>
-          <v-chip outlined> Vi tri khong chinh xac </v-chip>
-          <v-chip outlined> Treo phan mem </v-chip>
-          <v-chip outlined> Loi khac </v-chip>
+          <v-chip outlined> Không nhận diện được </v-chip>
+          <v-chip outlined> Thiếu buổi dạy / Thiếu tên nhân sự </v-chip>
+          <v-chip outlined> Vị trí không chính xác </v-chip>
+          <v-chip outlined> Treo phần mềm </v-chip>
+          <v-chip outlined> Lỗi Khác </v-chip>
         </v-chip-group>
       </v-card-text>
     </v-card>
     <v-card class="mt-3 d-flex flex-column" flat>
-      <v-card-title> Mo ta loi </v-card-title>
+      <v-card-title> Mô tả lỗi </v-card-title>
       <v-card-text class="flex-grow-1">
         <v-textarea
           rows="10"
           outlined
           color="green"
-          placeholder="Chi tiet loi gap phai"
+          placeholder="Chi tiết lỗi gặp phải"
         ></v-textarea
       ></v-card-text>
     </v-card>
@@ -63,8 +63,9 @@ export default {
       color="green"
       class="text-none mt-auto mt-3 ma-3 white--text"
       @click="sendBugReport"
-      >Gui bao loi</v-btn
     >
+      Gửi báo lỗi
+    </v-btn>
     <v-overlay absolute :value="overlay">
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>

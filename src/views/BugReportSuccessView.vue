@@ -33,7 +33,7 @@ export default {
     <v-toolbar dense max-height="50px" flat width="100%">
       <v-icon @click="$router.back()">mdi-arrow-left</v-icon>
       <v-spacer />
-      <v-toolbar-title>Bao loi</v-toolbar-title>
+      <v-toolbar-title> Báo lỗi </v-toolbar-title>
       <v-spacer />
     </v-toolbar>
     <div class="flex-grow-1 d-flex align-center">
