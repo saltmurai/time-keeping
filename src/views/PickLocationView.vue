@@ -11,6 +11,7 @@
         class="fill-height"
       ></iframe>
     </div>
+    <v-card>
     <v-card class="fill-height rounded-lg d-flex flex-column">
       <v-dialog
         v-model="dialog"

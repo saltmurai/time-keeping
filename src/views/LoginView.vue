@@ -1,3 +1,41 @@
+<script>
+export default {
+  data() {
+    return {
+      loading: false,
+      snackbar: false,
+      otp: "",
+      text: "Vui lòng nhập mã pin 6 chữ số để đăng nhập",
+      text_color: "",
+      expectedOtp: "123456",
+      inputOtp: "",
+    };
+  },
+  methods: {
+    onFinish(rsp) {
+      this.inputOtp = rsp;
+    },
+    onLogin(rsp) {
+      this.inputOtp = rsp;
+      this.loading = true;
+      setTimeout(() => {
+        this.loading = false;
+        if (this.inputOtp === this.expectedOtp) {
+          // remove comment for navigation guard
+          // this.$store.commit("setAuthentication", true);
+          this.$router.push("/menu");
+          return;
+        } else {
+          this.text = "Mã Pin chưa chính xác, vui lòng nhập lại";
+          this.$refs.test.reset();
+          this.text_color = "red--text";
+        }
+      }, 1500);
+    },
+  },
+};
+</script>
+
 <template>
   <div
     id="login-container"
@@ -43,44 +81,6 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      loading: false,
-      snackbar: false,
-      otp: "",
-      text: "Vui lòng nhập mã pin 6 chữ số để đăng nhập",
-      text_color: "",
-      expectedOtp: "123456",
-      inputOtp: "",
-    };
-  },
-  methods: {
-    onFinish(rsp) {
-      this.inputOtp = rsp;
-    },
-    onLogin(rsp) {
-      this.inputOtp = rsp;
-      this.loading = true;
-      setTimeout(() => {
-        this.loading = false;
-        if (this.inputOtp === this.expectedOtp) {
-          // remove comment for navigation guard
-          // this.$store.commit("setAuthentication", true);
-          this.$router.push("/menu");
-          return;
-        } else {
-          this.text = "Mã Pin chưa chính xác, vui lòng nhập lại";
-          this.$refs.test.reset();
-          this.text_color = "red--text";
-        }
-      }, 1500);
-    },
-  },
-};
-</script>
 <style scoped>
 #login-container {
   height: 100%;
