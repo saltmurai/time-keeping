@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <v-app-bar v-if="$route.meta.showNav" color="#6AA64F" app>
+    <v-app-bar flat v-if="$route.meta.showNav" color="#6AA64F" app>
       <v-img
         class="mx-auto"
         contain

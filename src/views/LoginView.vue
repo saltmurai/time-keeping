@@ -22,7 +22,7 @@ export default {
         this.loading = false;
         if (this.inputOtp === this.expectedOtp) {
           // remove comment for navigation guard
-          // this.$store.commit("setAuthentication", true);
+          this.$store.commit("setAuthentication", true);
           this.$router.push("/menu");
           return;
         } else {
@@ -39,7 +39,7 @@ export default {
 <template>
   <div
     id="login-container"
-    class="d-flex flex-column text-center fill-height justify-space-around"
+    class="d-flex flex-column text-center justify-space-around"
     @keyup.enter="onLogin"
   >
     <h1>Nhập mã pin</h1>

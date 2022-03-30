@@ -58,11 +58,13 @@ export default {
         class="text-none white--text mx-auto mb-3"
         width="80%"
         max-width="400px"
+        to="/pick-location"
         @click="sendBugReport"
-        >Gui bao loi</v-btn
       >
+        Thử lại
+      </v-btn>
       <footer class="grey--text mx-auto mb-3">
-        Trung tam bong ro JunSport
+        Trung tâm bóng rổ Junsport
       </footer>
     </div>
   </div>
