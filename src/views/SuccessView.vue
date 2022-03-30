@@ -3,7 +3,7 @@ export default {};
 </script>
 <template>
   <div id="container" class="d-flex flex-column fill-height">
-    <v-toolbar elevation="2" max-height="55px"
+    <v-toolbar flat max-height="55px"
       ><v-toolbar-title class="mx-auto">Chấm công thành công</v-toolbar-title>
     </v-toolbar>
     <div class="d-flex flex-column align-center white mt-3 pa-3">
@@ -21,17 +21,17 @@ export default {};
         <div class="grey--text text-caption">Nhân sự</div>
         <div>
           <v-avatar size="25">
-            <img
-              src="https://cdn.vuetifyjs.com/images/john.jpg"
-              alt="John"
-            /> </v-avatar
+            <img src="../assets/avatar.png" alt="John" /> </v-avatar
           ><span class="ml-2">Nguyễn Quang Minh</span>
         </div>
         <v-divider class="mt-1" />
       </div>
       <div class="ml-3 mr-3">
         <div class="grey--text text-caption">Thời gian ghi nhận</div>
-        <div><v-icon>mdi-domain</v-icon> <span>8.00 AM 20/03/2021</span></div>
+        <div>
+          <v-icon>mdi-calendar-month</v-icon>
+          <span class="mt-1">8.00 AM 20/03/2021</span>
+        </div>
         <v-divider />
       </div>
     </div>

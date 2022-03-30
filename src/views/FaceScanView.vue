@@ -6,10 +6,10 @@ export default {
       pickedStaff: null,
       popUpCard: {
         icon: "mdi-account-cicle-outline",
-        error: "Dao tao du lieu thanh cong",
+        error: "Đào tạo dữ liệu thành công",
         errorText:
-          "Ban da co du lieu khuon mat, gio ban co the bat dau cham cong",
-        action: "Cham cong",
+          "Bạn đã có dữ liệu khuôn mặt, giờ bạn có thể bắt đầu chấm công.",
+        action: "Chấm công",
       },
       search: "",
       middleDialog: false,
@@ -17,8 +17,8 @@ export default {
       pickStaffDialog: true,
       radioGroup: "",
       infoDialog: {
-        title: "Quet mat thanh cong",
-        text: "Vui long doi qua trinh dao tao du lieu",
+        title: "Quét mặt thành công",
+        text: "Vui lòng đợi quá trình đào tạo dữ liệu",
       },
       staffs: [
         { staffId: "0001", avatar: "", name: "Nguyen Van Nam" },
@@ -112,10 +112,7 @@ export default {
             >
               <div class="d-flex flex-row align-center mt-3">
                 <v-avatar size="32">
-                  <img
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    alt="John"
-                  />
+                  <img src="../assets/avatar.png" alt="John" />
                 </v-avatar>
                 <span class="ml-2">{{ staff.name }}</span>
                 <v-spacer></v-spacer>
