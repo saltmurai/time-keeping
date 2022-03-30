@@ -1,120 +1,50 @@
-<template xmlns:v-radio="http://www.w3.org/1999/html">
+<template>
   <div class="d-flex flex-column fill-height">
-    <div id="maps">
+    <div id="maps" class="flex-grow-1">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14896.603644108816!2d105.77032909999998!3d21.02664685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455c2ee01a76b%3A0xb118ceaa0cb97f16!2zU8OibiBiw7NuZyBN4bu5IMSQw6xuaCAy!5e0!3m2!1sen!2s!4v1646991976728!5m2!1sen!2s"
-        width="600"
-        height="450"
         style="border: 0; width: 100%"
         allowfullscreen=""
         loading="lazy"
         class="fill-height"
       ></iframe>
     </div>
-    <v-card>
-    <v-card class="fill-height rounded-lg d-flex flex-column">
-      <v-dialog
-        v-model="dialog"
-        fullscreen
-        scrollable
-        hide-overlay
-        transition="dialog-bottom-transition"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <div>
-            <div
-              class="d-flex flex-row align-center pa-3"
-              v-bind="attrs"
-              v-on="on"
-            >
-              <p class="mb-auto">{{ chonLop }}</p>
+    <v-card
+      class="fill-height rounded-lg d-flex flex-column mt-auto"
+      max-height="50%"
+    >
+      <v-card-text>
+        <div class="d-flex flex-row align-center pa-3" @click="dialog = true">
+          <p class="mb-auto">{{ chonLop }}</p>
+          <v-spacer></v-spacer>
+          <v-icon>mdi-chevron-down</v-icon>
+        </div>
+        <v-divider></v-divider>
+        <v-row class="align-start">
+          <v-col>
+            <div class="d-flex flex-row align-center pl-2">
+              <span :class="handleChangeTime">Thay đổi giờ</span>
               <v-spacer></v-spacer>
-              <v-icon>mdi-chevron-down</v-icon>
+              <v-switch v-model="switchTime" inset color="#6AA84F"></v-switch>
             </div>
             <v-divider></v-divider>
-            <v-row class="align-start">
-              <v-col>
-                <div class="d-flex flex-row align-center pl-2">
-                  <span :class="handleChangeTime">Thay đổi giờ</span>
-                  <v-spacer></v-spacer>
-                  <v-switch
-                    v-model="switchTime"
-                    inset
-                    color="#6AA84F"
-                  ></v-switch>
-                </div>
-                <v-divider></v-divider>
-              </v-col>
-              <v-col>
-                <div class="d-flex flex-row align-center">
-                  <span :class="handleChangeLocation">Đổi địa điểm</span>
-                  <v-spacer />
-                  <v-switch
-                    v-model="switchLocation"
-                    inset
-                    color="#6AA84F"
-                  ></v-switch>
-                </div>
-                <v-divider></v-divider>
-              </v-col>
-            </v-row>
-          </div>
-        </template>
-        <v-card>
-          <v-toolbar dense max-height="50px">
-            <v-icon @click="dialog = false">mdi-arrow-left</v-icon>
-            <v-spacer />
-            <v-toolbar-title>Chọn lớp học</v-toolbar-title>
-            <v-spacer />
-          </v-toolbar>
-          <v-text-field
-            v-model="search"
-            hide-details
-            append-icon="mdi-magnify"
-            single-line
-            class="ma-3 shrink"
-            outlined
-            placeholder="Tim Nhan Su"
-          ></v-text-field>
-          <h3 class="ml-4">Danh Sách</h3>
-          <v-card-text style="height: 50%">
-            <v-radio-group v-model="dialogm1" column>
-              <div
-                v-for="item in filteredClass"
-                :key="item.class"
-                :value="items.class"
-              >
-                <div class="d-flex flex-row">
-                  <div class="d-flex flex-column">
-                    <h4>{{ item.class }}</h4>
-                    <p>{{ item.time }}</p>
-                  </div>
-                  <v-spacer></v-spacer>
-                  <v-radio
-                    v-model="item.class"
-                    @click="handleClick(item.class, item.time)"
-                  ></v-radio>
-                </div>
-                <v-divider class="ma-1"></v-divider>
-              </div>
-            </v-radio-group>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              max-width="400"
-              :disabled="handleButton"
-              color="green"
-              large
-              width="80%"
-              class="white--text text-none mb-3 mx-auto"
-              @click="xacNhanButton"
-              >Xác nhận</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+          </v-col>
+          <v-col>
+            <div class="d-flex flex-row align-center">
+              <span :class="handleChangeLocation">Đổi địa điểm</span>
+              <v-spacer />
+              <v-switch
+                v-model="switchLocation"
+                inset
+                color="#6AA84F"
+              ></v-switch>
+            </div>
+            <v-divider></v-divider>
+          </v-col>
+        </v-row>
+      </v-card-text>
       <v-spacer></v-spacer>
-      <div class="d-flex flex-column justify-center align-center">
+      <v-card-actions class="d-flex flex-column justify-center align-center">
         <v-btn
           max-width="400"
           :disabled="handleButton"
@@ -135,8 +65,68 @@
           plain
           ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
         >
-      </div>
+      </v-card-actions>
     </v-card>
+    <v-dialog
+      v-model="dialog"
+      fullscreen
+      scrollable
+      hide-overlay
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dense flat max-height="50px">
+          <v-icon @click="dialog = false">mdi-arrow-left</v-icon>
+          <v-spacer />
+          <v-toolbar-title>Chọn lớp học</v-toolbar-title>
+          <v-spacer />
+        </v-toolbar>
+        <v-text-field
+          v-model="search"
+          hide-details
+          append-icon="mdi-magnify"
+          single-line
+          class="ma-3 shrink"
+          outlined
+          placeholder="Tìm lớp học"
+        ></v-text-field>
+        <h3 class="ml-4">Danh SáchSS</h3>
+        <v-card-text style="height: 50%">
+          <v-radio-group v-model="dialogm1" column>
+            <div
+              v-for="item in filteredClass"
+              :key="item.class"
+              :value="items.class"
+            >
+              <div class="d-flex flex-row">
+                <div class="d-flex flex-column">
+                  <h4>{{ item.class }}</h4>
+                  <p>{{ item.time }}</p>
+                </div>
+                <v-spacer></v-spacer>
+                <v-radio
+                  v-model="item.class"
+                  @click="handleClick(item.class, item.time)"
+                ></v-radio>
+              </div>
+              <v-divider class="ma-1"></v-divider>
+            </div>
+          </v-radio-group>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+            max-width="400"
+            :disabled="handleButton"
+            color="green"
+            large
+            width="80%"
+            class="white--text text-none mb-3 mx-auto"
+            @click="xacNhanButton"
+            >Xác nhận</v-btn
+          >
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -221,11 +211,9 @@ export default {
   computed: {
     /* eslint-disable */
     filteredClass() {
-      return this.items
-        .filter((item) =>
-          item.class.toLowerCase().includes(this.search.toLowerCase())
-        )
-        .filter((item) => item.locationId === this.currentLoc.locationId);
+      return this.items.filter((item) =>
+        item.class.toLowerCase().includes(this.search.toLowerCase())
+      );
     },
     handleButton() {
       return this.chonLop === "Chọn lớp" ? true : false;
@@ -277,6 +265,5 @@ export default {
 <style scoped>
 #maps {
   background-color: teal;
-  height: 70%;
 }
 </style>

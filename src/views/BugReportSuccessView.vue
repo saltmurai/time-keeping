@@ -36,7 +36,7 @@ export default {
       <v-toolbar-title> Báo lỗi </v-toolbar-title>
       <v-spacer />
     </v-toolbar>
-    <div class="flex-grow-1 d-flex align-center">
+    <div class="flex-grow-1 d-flex justify-center align-center">
       <v-card class="ma-3" flat>
         <v-card-text class="d-flex flex-column text-center">
           <v-img
