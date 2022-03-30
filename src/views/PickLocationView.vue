@@ -1,21 +1,40 @@
 <template>
   <div class="d-flex flex-column fill-height">
-    <div id="maps" class="flex-grow-1">
+    <!--    Dynamic map show based on current location ID-->
+    <div v-if="currentLoc.locationId === 1" class="flex-grow-1">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.411787582883!2d105.80369381542727!3d21.0162031935816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab60a18390ab%3A0x8e9e0ccd4587ef4e!2sJunsport!5e0!3m2!1svi!2s!4v1648604398381!5m2!1svi!2s"
+        style="border: 0; width: 100%"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="fill-height"
+      ></iframe>
+    </div>
+    <div v-if="currentLoc.locationId === 2" class="flex-grow-1">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14896.603644108816!2d105.77032909999998!3d21.02664685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455c2ee01a76b%3A0xb118ceaa0cb97f16!2zU8OibiBiw7NuZyBN4bu5IMSQw6xuaCAy!5e0!3m2!1sen!2s!4v1646991976728!5m2!1sen!2s"
         style="border: 0; width: 100%"
-        allowfullscreen=""
         loading="lazy"
         class="fill-height"
       ></iframe>
     </div>
+    <div v-if="currentLoc.locationId === 3" class="flex-grow-1">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14896.603644108816!2d105.77032909999998!3d21.02664685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455c2ee01a76b%3A0xb118ceaa0cb97f16!2zU8OibiBiw7NuZyBN4bu5IMSQw6xuaCAy!5e0!3m2!1sen!2s!4v1646991976728!5m2!1sen!2s"
+        style="border: 0; width: 100%"
+        loading="lazy"
+        class="fill-height"
+      ></iframe>
+    </div>
+    <!--    Menu card-->
     <v-card
-      class="fill-height rounded-lg d-flex flex-column mt-auto"
-      max-height="50%"
+      class="fill-height rounded-lg d-flex flex-column rounded-md"
+      max-height="60%"
     >
       <v-card-text>
-        <div class="d-flex flex-row align-center pa-3" @click="dialog = true">
-          <p class="mb-auto">{{ chonLop }}</p>
+        <span class="pl-2 grey--text text-caption">Buổi dạy</span>
+        <div class="d-flex flex-row align-center pa-2" @click="dialog = true">
+          <p class="mb-auto">{{ pickedClass }}</p>
           <v-spacer></v-spacer>
           <v-icon>mdi-chevron-down</v-icon>
         </div>
@@ -23,7 +42,7 @@
         <v-row class="align-start">
           <v-col>
             <div class="d-flex flex-row align-center pl-2">
-              <span :class="handleChangeTime">Thay đổi giờ</span>
+              <span :class="isChangeTime">Thay đổi giờ</span>
               <v-spacer></v-spacer>
               <v-switch v-model="switchTime" inset color="#6AA84F"></v-switch>
             </div>
@@ -31,7 +50,7 @@
           </v-col>
           <v-col>
             <div class="d-flex flex-row align-center">
-              <span :class="handleChangeLocation">Đổi địa điểm</span>
+              <span :class="isChangeLocation">Đổi địa điểm</span>
               <v-spacer />
               <v-switch
                 v-model="switchLocation"
@@ -47,7 +66,7 @@
       <v-card-actions class="d-flex flex-column justify-center align-center">
         <v-btn
           max-width="400"
-          :disabled="handleButton"
+          :disabled="isChooseClass"
           to="/face-confirmation"
           color="green"
           large
@@ -67,6 +86,7 @@
         >
       </v-card-actions>
     </v-card>
+    <!--    Choose class dialog  -->
     <v-dialog
       v-model="dialog"
       fullscreen
@@ -90,13 +110,13 @@
           outlined
           placeholder="Tìm lớp học"
         ></v-text-field>
-        <h3 class="ml-4">Danh SáchSS</h3>
+        <h3 class="ml-4">Danh Sách</h3>
         <v-card-text style="height: 50%">
-          <v-radio-group v-model="dialogm1" column>
+          <v-radio-group column>
             <div
               v-for="item in filteredClass"
               :key="item.class"
-              :value="items.class"
+              :value="classList.class"
             >
               <div class="d-flex flex-row">
                 <div class="d-flex flex-column">
@@ -106,7 +126,7 @@
                 <v-spacer></v-spacer>
                 <v-radio
                   v-model="item.class"
-                  @click="handleClick(item.class, item.time)"
+                  @click="chooseClass(item.class, item.time)"
                 ></v-radio>
               </div>
               <v-divider class="ma-1"></v-divider>
@@ -116,7 +136,7 @@
         <v-card-actions>
           <v-btn
             max-width="400"
-            :disabled="handleButton"
+            :disabled="isChooseClass"
             color="green"
             large
             width="80%"
@@ -131,22 +151,22 @@
 </template>
 
 <script>
-// import GoogleMap from "@/components/GoogleMap";
 export default {
-  components: {
-    // GoogleMap,
-  },
   data() {
     return {
       buttonColor: "grey",
       dialog: false,
-      chonLop: "Chọn lớp",
+      pickedClass: "Chọn lớp",
       switchTime: "",
       switchLocation: "",
-      dialogm1: "",
       search: "",
-      center: { lat: 10, lng: 10 },
-      currentLoc: {},
+      currentLoc: {
+        locationId: 1,
+        name: "Junsport",
+        street: "Nguyen Chi Thanh",
+        lat: 21.02952,
+        lng: 105.813,
+      },
       locations: [
         {
           locationId: 1,
@@ -170,7 +190,7 @@ export default {
           lng: 105.78410119695928,
         },
       ],
-      items: [
+      classList: [
         { class: "Ca sang 1", time: "8:00 - 9:00", locationId: 1 },
         { class: "Ca sang 2", time: "8:00 - 9:00", locationId: 1 },
         { class: "Ca sang 3", time: "8:00 - 9:00", locationId: 2 },
@@ -194,11 +214,11 @@ export default {
         this.dialog = false;
       }
     },
-    handleClick(ca, thoiGian) {
-      this.chonLop = ca.concat(" ", thoiGian);
+    chooseClass(ca, time) {
+      this.pickedClass = `${ca} ${time}`;
     },
     distance(lat1, lng1, lat2, lng2) {
-      // calculate distance given coordinates in metter
+      // calculate distance given coordinates in meter
       let p = 0.017453292519943295; // Pi/180
       let c = Math.cos;
       let a =
@@ -209,23 +229,21 @@ export default {
     },
   },
   computed: {
-    /* eslint-disable */
     filteredClass() {
-      return this.items.filter((item) =>
-        item.class.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return this.classList
+        .filter((item) =>
+          item.class.toLowerCase().includes(this.search.toLowerCase())
+        )
+        .filter((item) => item.locationId === this.currentLoc.locationId);
     },
-    handleButton() {
-      return this.chonLop === "Chọn lớp" ? true : false;
+    isChooseClass() {
+      return this.pickedClass === "Chọn lớp";
     },
-    handleChangeTime() {
+    isChangeTime() {
       return this.switchTime === true ? "mb-1" : "mb-1 grey--text";
     },
-    handleChangeLocation() {
+    isChangeLocation() {
       return this.switchLocation === true ? "mb-1" : "mb-1 grey--text";
-    },
-    markerPos() {
-      return this.locations.filter((location) => location.locationId === 1);
     },
   },
   created() {
@@ -236,12 +254,10 @@ export default {
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        this.center.lat = pos.coords.latitude;
-        this.center.lng = pos.coords.longitude;
         for (const location of this.locations) {
           let dis = this.distance(
-            this.center.lat,
-            this.center.lng,
+            pos.coords.latitude,
+            pos.coords.longitude,
             location.lat,
             location.lng
           );
@@ -262,8 +278,4 @@ export default {
 };
 </script>
 
-<style scoped>
-#maps {
-  background-color: teal;
-}
-</style>
+<style scoped></style>
