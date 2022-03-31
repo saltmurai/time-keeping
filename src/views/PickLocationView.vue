@@ -113,11 +113,7 @@
         <h3 class="ml-4">Danh Sách</h3>
         <v-card-text style="height: 50%">
           <v-radio-group column>
-            <div
-              v-for="item in filteredClass"
-              :key="item.class"
-              :value="classList.class"
-            >
+            <div v-for="item in filteredClass" :key="item.class">
               <div class="d-flex flex-row">
                 <div class="d-flex flex-column">
                   <h4>{{ item.class }}</h4>
@@ -210,9 +206,7 @@ export default {
   },
   methods: {
     xacNhanButton() {
-      if (this.dialogm1 !== null) {
-        this.dialog = false;
-      }
+      this.dialog = false;
     },
     chooseClass(ca, time) {
       this.pickedClass = `${ca} ${time}`;
@@ -248,7 +242,7 @@ export default {
   },
   created() {
     if (!("geolocation" in navigator)) {
-      this.errorMess = "Geolocation is not available";
+      // this.errorMess = "Geolocation is not available";
       console.log("No geolocate");
       return;
     }
@@ -270,8 +264,7 @@ export default {
         }
       },
       (err) => {
-        alert("Can't get location");
-        this.errorMess = err;
+        alert("Can't get location, err: " + err);
       }
     );
   },
