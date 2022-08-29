@@ -45,7 +45,7 @@ export default {};
         min-width="120px"
         ><v-icon left>mdi-bug</v-icon>Báo lỗi</v-btn
       >
-      <footer class="grey--text mb-5">Trung tâm bóng rổ Junsport</footer>
+      <footer class="grey--text mb-5">Công ty ABC</footer>
     </div>
   </div>
 </template>

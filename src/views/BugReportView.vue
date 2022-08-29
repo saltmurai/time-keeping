@@ -40,8 +40,8 @@ export default {
       <v-card-title> Chọn loại lỗi </v-card-title>
       <v-card-text>
         <v-chip-group active-class="green--text green" column>
-          <v-chip outlined> Không nhận diện được </v-chip>
-          <v-chip outlined> Thiếu buổi dạy / Thiếu tên nhân sự </v-chip>
+          <v-chip outlined> Không nhận diện được vị trí </v-chip>
+          <v-chip outlined> Thiếu tên nhân sự </v-chip>
           <v-chip outlined> Vị trí không chính xác </v-chip>
           <v-chip outlined> Treo phần mềm </v-chip>
           <v-chip outlined> Lỗi Khác </v-chip>

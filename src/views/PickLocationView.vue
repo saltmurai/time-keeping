@@ -32,7 +32,7 @@
       max-height="60%"
     >
       <v-card-text>
-        <span class="pl-2 grey--text text-caption">Buổi dạy</span>
+        <span class="pl-2 grey--text text-caption">Chấm công</span>
         <div class="d-flex flex-row align-center pa-2" @click="dialog = true">
           <p class="mb-auto">{{ pickedClass }}</p>
           <v-spacer></v-spacer>

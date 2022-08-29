@@ -63,9 +63,7 @@ export default {
       >
         Thử lại
       </v-btn>
-      <footer class="grey--text mx-auto mb-3">
-        Trung tâm bóng rổ Junsport
-      </footer>
+      <footer class="grey--text mx-auto mb-3">Công ty ABC</footer>
     </div>
   </div>
 </template>

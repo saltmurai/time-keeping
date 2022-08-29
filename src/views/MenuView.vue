@@ -16,7 +16,7 @@
       large
       width="80%"
       class="white--text text-none"
-      >Quét Khuôn Mặt</v-btn
+      >Thay đổi thông tin</v-btn
     >
   </div>
 </template>
