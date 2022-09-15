@@ -9,7 +9,7 @@ import SuccessView from "@/views/SuccessView";
 import FaceScanView from "@/views/FaceScanView";
 import BugReportView from "@/views/BugReportView";
 import BugReportSuccessView from "@/views/BugReportSuccessView";
-
+import AdminDashBoardView from "@/views/AdminDashBoardView";
 Vue.use(VueRouter);
 
 const routes = [
@@ -18,7 +18,7 @@ const routes = [
     name: "Login",
     component: LoginView,
     meta: {
-      showNav: true,
+      showNav: false,
     },
   },
   {
@@ -58,6 +58,11 @@ const routes = [
     path: "/bug-report-success",
     name: "BugReportSuccess",
     component: BugReportSuccessView,
+  },
+  {
+    path: "/admin",
+    name: "AdminPage",
+    component: AdminDashBoardView,
   },
 ];
 

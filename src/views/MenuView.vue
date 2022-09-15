@@ -15,8 +15,17 @@
       color="#6AA84F"
       large
       width="80%"
+      class="white--text text-none mb-4"
+      >Quét khuôn mặt</v-btn
+    >
+    <v-btn
+      to="/face-scan"
+      max-width="400"
+      color="#6AA84F"
+      large
+      width="80%"
       class="white--text text-none"
-      >Thay đổi thông tin</v-btn
+      >Thay đổi thông tin cá nhân</v-btn
     >
   </div>
 </template>

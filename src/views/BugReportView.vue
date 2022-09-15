@@ -4,6 +4,8 @@ export default {
     return {
       overlay: false,
       toggle: false,
+      bugType: "",
+      bugDetail: "",
     };
   },
   methods: {
@@ -39,7 +41,7 @@ export default {
     <v-card class="mt-3" flat>
       <v-card-title> Chọn loại lỗi </v-card-title>
       <v-card-text>
-        <v-chip-group active-class="green--text green" column>
+        <v-chip-group active-class="green--text green" column v-model="bugType">
           <v-chip outlined> Không nhận diện được vị trí </v-chip>
           <v-chip outlined> Thiếu tên nhân sự </v-chip>
           <v-chip outlined> Vị trí không chính xác </v-chip>
@@ -56,6 +58,7 @@ export default {
           outlined
           color="green"
           placeholder="Chi tiết lỗi gặp phải"
+          v-model="bugDetail"
         ></v-textarea
       ></v-card-text>
     </v-card>

@@ -1,6 +1,7 @@
 <script>
 import { FaceDetection } from "@mediapipe/face_detection";
 import { Camera } from "@mediapipe/camera_utils";
+// import { firebaseConfig } from "../firebase/firebase";
 // import { drawLandmarks, drawRectangle } from "@mediapipe/drawing_utils";
 
 export default {
@@ -75,12 +76,15 @@ export default {
       );
       this.resultImage = results.image;
       if (results.detections.length > 0) {
-        console.log(this.resultImage);
         this.pause();
         this.bottomDialog = true;
         this.renderImage();
+        const checkin_id = this.$route.query.checkin_id;
         setTimeout(() => {
-          this.$router.push("success");
+          this.$router.push({
+            path: "/success",
+            query: { checkin_id: checkin_id },
+          });
         }, 1000);
       }
       this.canvasCtx.restore();

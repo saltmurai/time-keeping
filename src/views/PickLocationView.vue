@@ -67,7 +67,7 @@
         <v-btn
           max-width="400"
           :disabled="isChooseClass"
-          to="/face-confirmation"
+          @click="checkinButton()"
           color="green"
           large
           width="80%"
@@ -147,6 +147,20 @@
 </template>
 
 <script>
+import { initializeApp } from "firebase/app";
+import {
+  collection,
+  getFirestore,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { firebaseConfig } from "../firebase/firebase";
+
+const fbApp = initializeApp(firebaseConfig);
+const fireStore = getFirestore(fbApp);
+const userCol = collection(fireStore, "checkin");
+const auth = getAuth(fbApp);
 export default {
   data() {
     return {
@@ -158,7 +172,7 @@ export default {
       search: "",
       currentLoc: {
         locationId: 1,
-        name: "Junsport",
+        name: "Công ty ABC",
         street: "Nguyen Chi Thanh",
         lat: 21.02952,
         lng: 105.813,
@@ -166,21 +180,21 @@ export default {
       locations: [
         {
           locationId: 1,
-          name: "Junsport",
+          name: "Công ty ABC",
           street: "Nguyen Chi Thanh",
           lat: 21.02952,
           lng: 105.813,
         },
         {
           locationId: 2,
-          name: "Junsport To Huu",
+          name: "Công ty ABC",
           street: "To Huu",
           lat: 20.994745634429954,
           lng: 105.78940142565692,
         },
         {
           locationId: 3,
-          name: "Junsport",
+          name: "Công ty ABC",
           street: "Me tri",
           lat: 21.016598568961513,
           lng: 105.78410119695928,
@@ -221,6 +235,20 @@ export default {
         (c(lat1 * p) * c(lat2 * p) * (1 - c((lng2 - lng1) * p))) / 2;
       return 12742 * Math.asin(Math.sqrt(a)) * 1000;
     },
+    checkinButton() {
+      const newDoc = {
+        user: auth.currentUser.providerData[0],
+        location: this.currentLoc,
+        pickedClass: this.pickedClass,
+        createdAt: serverTimestamp(),
+      };
+      addDoc(userCol, newDoc).then((docRef) => {
+        this.$router.push({
+          path: "/face-confirmation",
+          query: { checkin_id: docRef.id },
+        });
+      });
+    },
   },
   computed: {
     filteredClass() {
@@ -248,6 +276,7 @@ export default {
     }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        console.log(pos);
         for (const location of this.locations) {
           let dis = this.distance(
             pos.coords.latitude,
@@ -260,7 +289,7 @@ export default {
             console.log(this.currentLoc);
             break;
           }
-          console.log(dis);
+          // console.log(dis);
         }
       },
       (err) => {
