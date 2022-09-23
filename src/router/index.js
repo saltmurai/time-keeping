@@ -77,6 +77,7 @@ router.beforeEach((to, from, next) => {
     to.name !== "Login" &&
     to.name !== "BugReport" &&
     to.name !== "BugReportSuccess" &&
+    to.name !== "AdminPage" &&
     !store.state.authenticated
   )
     next({ name: "Login" });

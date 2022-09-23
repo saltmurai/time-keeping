@@ -72,7 +72,7 @@ export default {
         locationName: d.data().location.name,
         streetName: d.data().location.street,
         userId: d.data().user.email,
-        createdAt: new Date(d.data().createdAt * 1000),
+        createdAt: d.data().createdAt.toDate(),
       };
       items.push(newItem);
     });
